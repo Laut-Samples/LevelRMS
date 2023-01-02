@@ -7,6 +7,8 @@
       <GROUP id="{65A4F951-4820-5E64-F12A-7A8EF1D72D9E}" name="Component">
         <FILE id="dznFef" name="HorizontalMeter.h" compile="0" resource="0"
               file="Source/HorizontalMeter.h"/>
+        <FILE id="W4KxDh" name="VerticalGradientMeter.h" compile="0" resource="0"
+              file="Source/VerticalGradientMeter.h"/>
       </GROUP>
       <FILE id="r6R74C" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
