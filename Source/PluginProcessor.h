@@ -57,7 +57,7 @@ public:
     
 private:
     
-    float rmsLevelRight, rmsLevelLeft;
+    LinearSmoothedValue<float> rmsLevelRight, rmsLevelLeft;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LevelMeterAudioProcessor)

@@ -93,8 +93,12 @@ void LevelMeterAudioProcessor::changeProgramName (int index, const juce::String&
 //==============================================================================
 void LevelMeterAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    rmsLevelLeft.reset(sampleRate, 0.5);
+    rmsLevelRight.reset(sampleRate,0.5);
+    
+    rmsLevelLeft.setCurrentAndTargetValue(-100.0f);
+    
+    rmsLevelRight.setCurrentAndTargetValue(-100.0f);
 }
 
 void LevelMeterAudioProcessor::releaseResources()
@@ -132,10 +136,29 @@ bool LevelMeterAudioProcessor::isBusesLayoutSupported (const BusesLayout& layout
 void LevelMeterAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
-
-    rmsLevelLeft = Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
-    rmsLevelRight = Decibels::gainToDecibels(buffer.getRMSLevel(1, 0, buffer.getNumSamples()));
     
+    
+    rmsLevelLeft.skip(buffer.getNumSamples());
+    rmsLevelRight.skip(buffer.getNumSamples());
+    
+    //Left
+    
+    {
+        const auto value = Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
+        if ( value < rmsLevelLeft.getCurrentValue())
+            rmsLevelLeft.setTargetValue(value);
+        else
+            rmsLevelLeft.setCurrentAndTargetValue(value);
+    }
+    
+    //Right
+    {
+        const auto value = Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
+        if ( value < rmsLevelRight.getCurrentValue())
+            rmsLevelRight.setTargetValue(value);
+        else
+            rmsLevelRight.setCurrentAndTargetValue(value);
+    }
     
 }
 
@@ -168,9 +191,9 @@ float LevelMeterAudioProcessor::getRmsValue(const int channel) const
 {
     jassert(channel == 0 || channel == 1);
     if (channel == 0)
-        return rmsLevelLeft;
+        return rmsLevelLeft.getCurrentValue();
     if (channel == 1)
-        return rmsLevelRight;
+        return rmsLevelRight.getCurrentValue();
     return 0.f;
 }
 
