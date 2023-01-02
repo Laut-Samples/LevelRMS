@@ -38,6 +38,7 @@ void LevelMeterAudioProcessorEditor::timerCallback()
     
     horizontalMeterL.repaint();
     horizontalMeterR.repaint();
+    
 }
 
 //==============================================================================

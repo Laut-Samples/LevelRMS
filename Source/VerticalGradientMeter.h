@@ -24,7 +24,7 @@ namespace Gui
             g.setColour(Colours::black);
             g.fillRect(bounds);
             g.setGradientFill(gradient);
-            const auto scaledY = jmap(level, -60.f, 6.f, 0.f, static_cast<float>(getWidth()));
+            const auto scaledY = jmap(level, -60.f, 6.f, 0.f, static_cast<float>(getHeight()));
             g.fillRect(bounds.removeFromBottom(scaledY));
         }
         
@@ -32,7 +32,7 @@ namespace Gui
         {
             const auto bounds = getLocalBounds().toFloat();
             
-            ColourGradient gradient{
+            gradient = ColourGradient{
                                     Colours::green,
                                     bounds.getBottomLeft(),
                                     Colours::red,
