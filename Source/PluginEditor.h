@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "HorizontalMeter.h"
+#include "VerticalGradientMeter.h"
 
 //==============================================================================
 /**
@@ -31,6 +32,8 @@ private:
     LevelMeterAudioProcessor& audioProcessor;
     
     Gui::HorizontalMeter horizontalMeterL, horizontalMeterR;
+    
+    Gui::VerticalGradientMeter verticalgradientmeterL, verticalgradientmeterR;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LevelMeterAudioProcessorEditor)
 };

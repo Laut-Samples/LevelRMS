@@ -11,11 +11,16 @@
 
 //==============================================================================
 LevelMeterAudioProcessorEditor::LevelMeterAudioProcessorEditor (LevelMeterAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+    : AudioProcessorEditor (&p), audioProcessor (p),
+    verticalgradientmeterL([&]() { return audioProcessor.getRmsValue(0); }),
+    verticalgradientmeterR([&]() { return audioProcessor.getRmsValue(1); })
 {
-    setSize (400, 300);
+    setSize (400, 500);
     addAndMakeVisible(horizontalMeterL);
     addAndMakeVisible(horizontalMeterR);
+    
+    addAndMakeVisible(verticalgradientmeterL);
+    addAndMakeVisible(verticalgradientmeterR);
     
     startTimerHz(24);
     
@@ -45,4 +50,7 @@ void LevelMeterAudioProcessorEditor::resized()
 {
     horizontalMeterR.setBounds(100,100, 200, 15);
     horizontalMeterL.setBounds(100,120, 200, 15);
+    
+    verticalgradientmeterL.setBounds(100,200, 15, 200);
+    verticalgradientmeterR.setBounds(120,200, 15, 200);
 }
